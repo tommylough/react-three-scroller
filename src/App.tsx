@@ -1,9 +1,9 @@
 import { Canvas } from "@react-three/fiber";
-import Experience from "./components/Experience";
+import { Experience } from "./components/Experience";
 import { useState, useEffect } from "react";
 import { Vector3 } from "three";
 
-function App() {
+export const App = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
@@ -97,6 +97,4 @@ function App() {
       </div>
     </div>
   );
-}
-
-export default App;
+};
