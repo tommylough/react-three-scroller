@@ -6,7 +6,7 @@ interface LaunchPadProps {
   scrollProgress: number;
 }
 
-const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
+export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
   const group = useRef<Group>(null);
 
   // Load the launch pad model
@@ -35,8 +35,6 @@ const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
     </group>
   );
 };
-
-export default LaunchPad;
 
 // Preload the model
 useGLTF.preload("/models/LaunchPad.glb");

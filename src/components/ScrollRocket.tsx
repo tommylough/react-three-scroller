@@ -1,9 +1,14 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
+import { Group } from "three";
 
-export function ScrollRocket({ scrollProgress }) {
-  const rocketRef = useRef();
+interface ScrollRocketProps {
+  scrollProgress: number;
+}
+
+const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
+  const group = useRef<Group>(null);
 
   // Load the rocket model
   const { scene } = useGLTF("/models/CartoonSpaceShipForExport.glb");
@@ -26,26 +31,26 @@ export function ScrollRocket({ scrollProgress }) {
 
   const isLaunching = scrollProgress > engineStartThreshold; // Rocket movement starts after 5%
 
-  useFrame((state) => {
-    if (rocketRef.current) {
+  useFrame(() => {
+    if (group.current) {
       // Position update
-      rocketRef.current.position.y = rocketY;
+      group.current.position.y = rocketY;
 
       // Only rotate if actually launching (not just engines firing)
       if (isLaunching) {
         const rotation = scrollProgress * Math.PI * 0.1;
-        rocketRef.current.rotation.z = rotation * 0.1;
-        rocketRef.current.rotation.x = rotation * 0.05;
+        group.current.rotation.z = rotation * 0.1;
+        group.current.rotation.x = rotation * 0.05;
       } else {
         // Completely stationary during engine warmup
-        rocketRef.current.rotation.z = 0;
-        rocketRef.current.rotation.x = 0;
+        group.current.rotation.z = 0;
+        group.current.rotation.x = 0;
       }
     }
   });
 
   return (
-    <group ref={rocketRef}>
+    <group ref={group}>
       <primitive
         object={scene.clone()}
         scale={[0.05, 0.05, 0.05]}
@@ -53,7 +58,9 @@ export function ScrollRocket({ scrollProgress }) {
       />
     </group>
   );
-}
+};
+
+export default ScrollRocket;
 
 // Preload the model
 useGLTF.preload("/models/CartoonSpaceShipForExport.glb");

@@ -1,13 +1,13 @@
 import { Suspense } from "react";
 import { Environment, Stars } from "@react-three/drei";
-import LaunchPad from "./LaunchPad";
-import { ScrollRocket } from "./ScrollRocket";
+import { LaunchPad } from "./LaunchPad";
+import ScrollRocket from "./ScrollRocket";
 
 interface ExperienceProps {
   scrollProgress: number;
 }
 
-const Experience = ({ scrollProgress }: ExperienceProps) => {
+export const Experience = ({ scrollProgress }: ExperienceProps) => {
   return (
     <>
       {/* Use drei's Environment for realistic lighting */}
@@ -39,5 +39,3 @@ const Experience = ({ scrollProgress }: ExperienceProps) => {
     </>
   );
 };
-
-export default Experience;
