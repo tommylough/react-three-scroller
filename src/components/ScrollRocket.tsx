@@ -7,7 +7,7 @@ interface ScrollRocketProps {
   scrollProgress: number;
 }
 
-const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
+export const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
   const group = useRef<Group>(null);
 
   // Load the rocket model
@@ -59,8 +59,6 @@ const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
     </group>
   );
 };
-
-export default ScrollRocket;
 
 // Preload the model
 useGLTF.preload("/models/CartoonSpaceShipForExport.glb");
