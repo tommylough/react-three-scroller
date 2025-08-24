@@ -18,6 +18,20 @@ html, body, #root {
   height: 100%;
 }
 
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background-color: #333;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10; /* Ensure header is above other content */
+}
+
 .scroll-container {
   height: 400vh; /* 4x viewport height for scroll space */
   position: relative;
@@ -78,6 +92,17 @@ html, body, #root {
 
 .section-3 {
   margin-top: 0vh;
+}
+
+.button {
+    background-color: #007bff;
+    color: white;
+    margin: 0 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
 }
 
 /* Make sure scrolling works on mobile */

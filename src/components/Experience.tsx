@@ -35,9 +35,13 @@ export const Experience = ({ scrollProgress }: ExperienceProps) => {
         }
       >
         <StarField />
-        <LaunchPad scrollProgress={scrollProgress} />
-        <ScrollRocket scrollProgress={scrollProgress} />
+        <group>
+          <LaunchPad scrollProgress={scrollProgress} />
+          <ScrollRocket scrollProgress={scrollProgress} />
+        </group>
       </Suspense>
     </>
   );
 };
+
+//rotation={[2.8, 0.8, 1.8]}
