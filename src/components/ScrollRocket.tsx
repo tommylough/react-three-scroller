@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
+import { RocketFlame } from "./RocketFlame";
 import { Group } from "three";
 
 interface ScrollRocketProps {
@@ -18,7 +19,7 @@ export const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
   const engineStartThreshold = 0.05; // 5% of first page scroll
 
   // Calculate rocket position
-  const startY = -3; // Start on launch pad
+  const startY = -3.7; // Start on launch pad
   const endY = 0; // End at center of viewable area
 
   let rocketY = startY;
@@ -50,11 +51,19 @@ export const ScrollRocket = ({ scrollProgress }: ScrollRocketProps) => {
   });
 
   return (
-    <group ref={group}>
+    <group ref={group} position={[-0.5, 0, -0.4]}>
       <primitive
         object={scene.clone()}
         scale={[0.05, 0.05, 0.05]}
-        position={[-0.05, -0.5, 0.2]}
+        position={[0, 0, 0]}
+      />
+      <RocketFlame
+        position={[1.25, -0.2, 0.5]}
+        rotation={[Math.PI, 0, 0]}
+        scale={0.3}
+        intensity={0.2}
+        speed={10.0}
+        noiseScale={4.0}
       />
     </group>
   );
