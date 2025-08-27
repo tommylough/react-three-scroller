@@ -25,14 +25,8 @@ export const Smoke = ({
 
   // Determine animation phase based on scroll progress
   useEffect(() => {
-    console.log(
-      `Scroll progress: ${scrollProgress}, Threshold: ${maxScrollThreshold}, Current phase: ${animationPhase}`,
-    );
     const isInCyclingRange =
       scrollProgress >= 0 && scrollProgress <= maxScrollThreshold;
-
-    console.log(`Is in cycling range: ${isInCyclingRange}`);
-
     if (isInCyclingRange && animationPhase === "idle") {
       // Start looping when entering range
       //console.log("Starting loop animation");
