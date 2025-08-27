@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { useGLTF } from "@react-three/drei";
 import { Group } from "three";
 import { Smoke } from "./Smoke";
+import { ScrollingSky } from "./ScrollingSky.tsx";
 
 interface LaunchPadProps {
   scrollProgress: number;
@@ -10,7 +11,7 @@ interface LaunchPadProps {
 export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
   const group = useRef<Group>(null);
 
-  const { scene } = useGLTF("/models/LaunchPad.glb");
+  const { scene } = useGLTF("/models/Ground.glb");
 
   const engineStartThreshold = 0.05;
   const baseY = -4;
@@ -22,7 +23,8 @@ export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
     yPosition = baseY + -launchProgress * 30; // Move down as rocket launches
   }
   return (
-    <group ref={group} position={[0, yPosition, 0]}>
+    <group ref={group} position={[0, yPosition, 0]} rotation={[0, 0, 0]}>
+      <ScrollingSky scrollProgress={scrollProgress} />
       <primitive object={scene.clone()} />
       <group position={[0.8, 0.3, 0.2]}>
         {<Smoke scrollProgress={scrollProgress * 40} particleCount={30} />}
@@ -31,4 +33,4 @@ export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
   );
 };
 
-useGLTF.preload("/models/LaunchPad.glb");
+useGLTF.preload("/models/Ground.glb");

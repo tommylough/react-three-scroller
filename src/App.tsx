@@ -51,12 +51,15 @@ export const App = () => {
 
   // Memoize camera position to avoid unnecessary Vector3 creation
   const cameraPosition = useMemo(() => {
-    return new Vector3(
-      10 - scrollProgress * 3, // Move camera closer as rocket launches
+    const v3 = new Vector3(
+      0, // Move camera closer as rocket launches
       scrollProgress * 15, // Start at eye level, move up to follow rocket
       10 - scrollProgress * 2,
     );
+    return v3;
   }, [scrollProgress]);
+
+  console.log(`Scroll Progress for Sky: ${scrollProgress}`);
 
   return (
     <>
@@ -73,7 +76,7 @@ export const App = () => {
             shadows
             camera={{
               position: cameraPosition,
-              fov: 45,
+              fov: 60,
               near: 0.1,
               far: 200,
             }}
@@ -86,7 +89,6 @@ export const App = () => {
             <color attach="background" args={["#0f0f23"]} />
             <Experience scrollProgress={scrollProgress} />
 
-            {/* Only render OrbitControls when not scrolling */}
             {!isScrolling && (
               <OrbitControls
                 makeDefault
