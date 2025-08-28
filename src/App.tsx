@@ -12,9 +12,10 @@ export const App = () => {
   //let controlsEnabled = false;
 
   const [controlsEnabled, setControlsEnabled] = useState(false);
+  const [editCurvesEnabled, setEditCurvesEnabled] = useState(false);
 
-  const toggleControls = () => {
-    setControlsEnabled((prev) => !prev);
+  const doToggle = (stateFunc: Function) => {
+    stateFunc((prev: Function) => !prev);
   };
 
   useEffect(() => {
@@ -70,10 +71,19 @@ export const App = () => {
 
   return (
     <>
-      <div className="header" onClick={toggleControls}>
+      <div className="header">
         <h1>🚀</h1>
-        <button className={"button"}>
+        <button
+          className={"button"}
+          onClick={() => doToggle(setControlsEnabled)}
+        >
           {controlsEnabled ? "Stop Controls" : "Start Controls"}
+        </button>
+        <button
+          className={"button"}
+          onClick={() => doToggle(setEditCurvesEnabled)}
+        >
+          {editCurvesEnabled ? "Stop Curve Edit" : "Start Curve Edit"}
         </button>
       </div>
       <div className="scroll-container">
@@ -96,7 +106,7 @@ export const App = () => {
             <color attach="background" args={["#0f0f23"]} />
             <Experience scrollProgress={scrollProgress} width={width} />
 
-            {!isScrolling && (
+            {!isScrolling && !editCurvesEnabled && (
               <OrbitControls
                 makeDefault
                 enablePan={true}
