@@ -7,6 +7,7 @@ import { Vector3 } from "three";
 export const App = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [isScrolling, setIsScrolling] = useState(false);
+  const [width, setWidth] = useState(window.innerWidth);
   const scrollTimeoutRef = useRef<number | null>(null);
   //let controlsEnabled = false;
 
@@ -15,6 +16,12 @@ export const App = () => {
   const toggleControls = () => {
     setControlsEnabled((prev) => !prev);
   };
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -87,7 +94,7 @@ export const App = () => {
             }}
           >
             <color attach="background" args={["#0f0f23"]} />
-            <Experience scrollProgress={scrollProgress} />
+            <Experience scrollProgress={scrollProgress} width={width} />
 
             {!isScrolling && (
               <OrbitControls

@@ -6,9 +6,10 @@ import { StarField } from "./StarField.tsx";
 
 interface ExperienceProps {
   scrollProgress: number;
+  width: number;
 }
 
-export const Experience = ({ scrollProgress }: ExperienceProps) => {
+export const Experience = ({ scrollProgress, width }: ExperienceProps) => {
   return (
     <>
       <Environment preset="dawn" />
@@ -22,26 +23,10 @@ export const Experience = ({ scrollProgress }: ExperienceProps) => {
       >
         <StarField />
         <group>
-          <LaunchPad scrollProgress={scrollProgress} />
+          <LaunchPad scrollProgress={scrollProgress} width={width} />
           <ScrollRocket scrollProgress={scrollProgress} />
         </group>
-        {/*<SimpleDreiSky scrollProgress={scrollProgress} />*/}
       </Suspense>
     </>
   );
 };
-
-/*interface SkyProps {
-  scrollProgress: number;
-}
-
-/*const SimpleDreiSky = ({ scrollProgress }: SkyProps) => {
-  return (
-    <Sky
-      sunPosition={[0.1, 1, 0]}
-      inclination={0}
-      azimuth={0.25}
-      turbidity={2 + scrollProgress * 16}
-    />
-  );
-};*/

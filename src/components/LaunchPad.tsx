@@ -6,9 +6,10 @@ import { ScrollingSky } from "./ScrollingSky.tsx";
 
 interface LaunchPadProps {
   scrollProgress: number;
+  width: number;
 }
 
-export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
+export const LaunchPad = ({ scrollProgress, width }: LaunchPadProps) => {
   const group = useRef<Group>(null);
 
   const { scene } = useGLTF("/models/Ground.glb");
@@ -24,7 +25,7 @@ export const LaunchPad = ({ scrollProgress }: LaunchPadProps) => {
   }
   return (
     <group ref={group} position={[0, yPosition, 0]} rotation={[0, 0, 0]}>
-      <ScrollingSky scrollProgress={scrollProgress} />
+      <ScrollingSky scrollProgress={scrollProgress} width={width} />
       <primitive object={scene.clone()} />
       <group position={[0.8, 0.3, 0.2]}>
         {<Smoke scrollProgress={scrollProgress * 40} particleCount={30} />}
