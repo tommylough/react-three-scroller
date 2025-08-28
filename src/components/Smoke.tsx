@@ -3,9 +3,6 @@ import { useMemo, useState, useEffect } from "react";
 
 interface ParticleData {
   id: string;
-  targetX: number;
-  targetZ: number;
-  maxScale: number;
 }
 
 interface SmokeProps {
