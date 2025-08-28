@@ -3,6 +3,7 @@ import { Environment } from "@react-three/drei";
 import { LaunchPad } from "./LaunchPad";
 import { ScrollRocket } from "./ScrollRocket";
 import { StarField } from "./StarField.tsx";
+import { CurvePathFollower } from "./CurvePathFollower.tsx";
 
 interface ExperienceProps {
   scrollProgress: number;
@@ -26,6 +27,7 @@ export const Experience = ({ scrollProgress, width }: ExperienceProps) => {
           <LaunchPad scrollProgress={scrollProgress} width={width} />
           <ScrollRocket scrollProgress={scrollProgress} />
         </group>
+        <CurvePathFollower scrollProgress={scrollProgress} />
       </Suspense>
     </>
   );
