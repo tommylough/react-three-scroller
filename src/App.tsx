@@ -3,6 +3,7 @@ import { Experience } from "./components/Experience";
 import { OrbitControls } from "@react-three/drei";
 import { useState, useEffect, useMemo, useRef } from "react";
 import { Vector3 } from "three";
+import { useLocalStorage } from "./hooks";
 
 export const App = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -13,6 +14,8 @@ export const App = () => {
 
   const [controlsEnabled, setControlsEnabled] = useState(false);
   const [editCurvesEnabled, setEditCurvesEnabled] = useState(false);
+
+  const { data, saveData, addItem } = useLocalStorage("myData", []);
 
   const doToggle = (stateFunc: Function) => {
     stateFunc((prev: Function) => !prev);
@@ -73,6 +76,9 @@ export const App = () => {
     <>
       <div className="header">
         <h1>🚀</h1>
+        <button onClick={() => addItem({ name: "New item" })}>
+          Add Item ({data?.length || 0} items)
+        </button>
         <button
           className={"button"}
           onClick={() => doToggle(setControlsEnabled)}
