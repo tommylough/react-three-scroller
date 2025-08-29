@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { useFrame } from "@react-three/fiber";
+import { RootState, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 interface CurvePathFollowerProps {
@@ -17,15 +17,14 @@ export const CurvePathFollower = ({
     new THREE.Vector3(3, 1, 0),
   ]);
 
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false); // Changed default to false
+  const [animationProgress, setAnimationProgress] = useState(0);
   const [dragInfo, setDragInfo] = useState<{
     index: number;
     offset: THREE.Vector3;
   } | null>(null);
 
   const cubeRef = useRef<THREE.Mesh>(null);
-  const curveRef = useRef<THREE.CatmullRomCurve3>(null);
   const lineRef = useRef<THREE.Line>(null);
 
   // Create curve from control points
@@ -42,12 +41,16 @@ export const CurvePathFollower = ({
   }, [controlPoints, curve]);
 
   // Animation loop
-  useFrame((state, delta) => {
+  useFrame((_: RootState, delta) => {
+    // Only update animation progress if playing
     if (isPlaying) {
-      setProgress((prev) => (prev + delta * 0.2) % 1);
+      setAnimationProgress((prev) => (prev + delta * 0.2) % 1);
     }
 
     if (cubeRef.current) {
+      // Use scroll progress when not playing, animation progress when playing
+      const progress = isPlaying ? animationProgress : scrollProgress;
+
       // Get position and tangent on curve
       const position = curve.getPointAt(progress);
       const tangent = curve.getTangentAt(progress);
@@ -105,6 +108,15 @@ export const CurvePathFollower = ({
     setDragInfo(null);
   };
 
+  // Reset animation progress to current scroll position when stopping
+  const togglePlayPause = () => {
+    if (isPlaying) {
+      // When stopping, sync animation progress with scroll progress
+      setAnimationProgress(scrollProgress);
+    }
+    setIsPlaying(!isPlaying);
+  };
+
   return (
     <group>
       {/* Invisible drag plane to catch pointer events */}
@@ -119,7 +131,7 @@ export const CurvePathFollower = ({
       </mesh>
 
       {/* Curve line */}
-      <line ref={lineRef}>
+      <line ref={lineRef as any}>
         <bufferGeometry />
         <lineBasicMaterial color="#ffffff" linewidth={2} />
       </line>
@@ -160,13 +172,16 @@ export const CurvePathFollower = ({
       {/* 3D Control spheres */}
       <group position={[0, 3, 0]}>
         {/* Play/Pause control */}
-        <mesh position={[-0.5, 0, 0]} onClick={() => setIsPlaying(!isPlaying)}>
+        <mesh position={[-0.5, 0, 0]} onClick={togglePlayPause}>
           <sphereGeometry args={[0.2, 16, 16]} />
           <meshStandardMaterial color={isPlaying ? "#ff6b6b" : "#4ecdc4"} />
         </mesh>
 
-        {/* Reset control */}
-        <mesh position={[0.5, 0, 0]} onClick={() => setProgress(0)}>
+        {/* Reset control - now resets to current scroll position */}
+        <mesh
+          position={[0.5, 0, 0]}
+          onClick={() => setAnimationProgress(scrollProgress)}
+        >
           <sphereGeometry args={[0.15, 16, 16]} />
           <meshStandardMaterial color="#95a5a6" />
         </mesh>
